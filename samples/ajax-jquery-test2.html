@@ -1,0 +1,84 @@
+<HTML>
+<HEAD>
+	<title>Ajax JQuery Test</title>
+	<!-- assumes the jQuery library is available in the current folder -->
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+</HEAD>
+
+<BODY>
+	<h1>Ajax JQuery Test</h1>
+	<div>
+	<form method="post" action="ajax-jquery-test-form.php" id="my_form">
+		<label name="name_label">Name</label>
+		<input type="text" name="name" />
+		<label name="email" id="email_label">Email</label>
+		<input type="email" name="email" />
+		<label name="website" id="website_label">Website</label>
+		<input type="url" name="website" />
+		<input type="button" name="submit" value="Submit Form" id="ajax-link"/>
+		<input type="hidden" name="action" value="ajax-jquery-test-form.php" id="action"/>
+		<div id="server-results"><!-- For server results --></div>
+	</form>
+	</div>
+	
+	<!-- https://www.sanwebe.com/2016/07/ajax-form-submit-examples-using-jquery 
+	<script type="text/javascript">
+		// This works; but uses the form submit function, instead of button click.
+		$("#my_form").submit(function(event){
+			event.preventDefault(); //prevent default action
+			var post_url = $(this).attr("action"); //get form action url or "ajax-jquery-test-form.php"
+			var request_method = $(this).attr("method"); //get form GET/POST method
+			var form_data = $(this).serialize(); //Encode form elements for submission
+   
+		$.ajax({
+				url : post_url,
+				type: request_method,
+				data : form_data
+			}).done(function(response){ //
+				$("#server-results").html(response);
+			});
+		});
+	
+	</script>
+	-->
+	
+	<script type="text/javascript">
+		$("#ajax-link").click( function() 
+		{
+			// Valiation
+			//$('.error').hide();
+			var key1 = $('input[name="name"]').val();
+			alert (key1);
+			
+			var post_url = $('input[name="action"]').val(); //get form action url or "ajax-jquery-test-form.php"
+			alert (post_url);
+			//var request_method = $('input[name="method"]').val(); //get form GET/POST method
+			//alert (request_method);
+			//var form_data = $(#my_form).serialize(); //Encode form elements for submission
+			//alert (form_data);
+			
+			$.ajax({
+				url : post_url,
+				type: 'post',
+				data : key1
+			}).done(function(response){ //
+				alert(response);
+				$("#server-results").html(response);
+			});
+		});
+	
+
+	</script>
+	
+	<!--  https://www.mkyong.com/jquery/jquery-hello-world/ -->
+	<script type="text/javascript">
+		jQuery(document).ready(function(){
+		 $("#msgid").html("This is Hello World by JQuery");
+		});
+	</script>
+
+	This is Hello World by HTML!
+
+	<div id="msgid"></div>
+</BODY>
+</HTML>

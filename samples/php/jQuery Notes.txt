@@ -1,0 +1,116 @@
+jQuery Notes
+==============
+
+What is jQuery (jQuery vs javascript) ?
+jQuery is a java script library. It is layer over javascript which provides functions to make is easy to use javascript. A javascript code that takes 5 lines or more can be replaced with a jQuery code of 1 or lines.
+
+jQuery is a JavaScript Library.
+jQuery greatly simplifies JavaScript programming.
+jQuery is easy to learn.
+
+Sample:
+- jQuery(document) can be replaced with $(document). The $ is a useful alias.
+
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+jQuery(document).ready(function(){
+    jQuery("p").click(function(){
+        jQuery(this).hide();
+    });
+});
+</script>
+</head>
+<body>
+
+<p>If you click on me, I will disappear.</p>
+<p>Click me away !</p>
+<p>Click me too !</p>
+
+</body>
+</html>
+
+How to use jQuery?
+- Load the library in the page.
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+- Use jQuery script right inside <script> tag or in extenal js files.
+
+How to test?
+- Here is a page where you can try jQuery. Initially it loads sample script which can be replaced with yours.
+https://www.w3schools.com/Jquery/tryit.asp?filename=tryjquery_hide
+
+Examples?
+https://www.w3schools.com/Jquery/jquery_examples.asp
+
+
+Define variable:
+Variable are defined without prefix $. Just the name.
+var input_date = jQuery('#key-date').val();	// Get value from the HTML element key-date
+
+Concatenation: use +
+Strings use " or ' quotes.
+Variables no quotes.
+
+Form submission without page refresh (ajax):
+The sample 1 submits a form without refreshing the page. The HTML that contains this script is expected to have a button that is clicked. The jQuery click function reads the values, and post the request using jQuery ajax function. The post URL is available as wmgx_key_script_vars.ajax_url with two parameters action and key_date (key-date does not work as - is not allowed). The function updates message area with the response from POST.
+
+Working code sample: 1
+jQuery(document).ready(function() {
+
+///// Button clicked for generating the keys on the Admin page
+
+jQuery('#generate-keys-btn').click(function() {
+    alert("clicked..");
+    var input_date = jQuery('#key-date').val();
+    alert("date:" + input_date );
+
+    jQuery.ajax({
+      url : wmgx_key_script_vars.ajax_url,
+      type : 'post',
+      data : {
+        action : 'wmgx_generate_keys',
+        key_date: input_date
+      },
+      success : function( response ) {
+        jQuery('#generate-keys-msg-area').html( response );
+      }
+    });
+
+    return false;
+  });
+
+}); //end jQuery(document).ready(function()
+
+Notes about sample 1:
+- This is an ajax script where the page where it is loaded has a 
+	* button named generate-keys-btn
+	* input element named key-date
+- The array named wmgx_key_script_vars is made available using wp_localize_script function of WP.
+- Some sample versions show .click(function($). It seems to work without it.
+- Some sample versions show $ instead of jQuery, such as in "jQuery.ajax" vs "$.ajax". The $ is an alias for jQuery. Have seen error messages when using $ instead of jQuery.
+- Dynamic HTML - to modify any element, use jQuery(#handle-name).html(variable_name). handle-name is the name of a input element. 
+variable_name is a string with html fragment/element.
+
+PHP script fragment that generated the HTML
+----------------------------------------------
+
+// This part of the PHP inserts the js file to the HTML page in the footer section using <script> tag.
+// You should see it in the pagesource HTML of the wp-admin page.
+// wp_localize_script makes the array variable wmgx_key_script_vars on the page where jQuery (and other scripts) can use it as wmgx_key_script_vars.ajax_url.
+// Important: Use wp_enqueue_scripts instead of admin_enqueue_scripts on non-admin pages.
+
+add_action( 'admin_enqueue_scripts', 'ajax_enqueue_scripts' );
+function ajax_enqueue_scripts() {
+  // alternate: plugin_dir_url( __FILE__ ) . 'wmgx2-product-key-validation.js')
+	wp_enqueue_script( 'wmgx_key_validation', plugins_url( '/wmgx4-product-key-management.js', __FILE__ ), array(
+    'jquery'));
+
+	wp_localize_script( 'wmgx_key_validation', 'wmgx_key_script_vars', array(
+		'ajax_url' => admin_url( 'admin-ajax.php' )
+	));
+}
+
+
+

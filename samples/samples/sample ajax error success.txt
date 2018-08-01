@@ -1,0 +1,46 @@
+
+https://stackoverflow.com/questions/7439606/jquery-ajax-post-success-error-function
+
+The error option in jQuery ajax methods is for errors caused by a bad connection, timeout, invalid url, things of that nature. It's not the kind of error that you're thinking.
+
+What most people do is something like this...
+
+php:
+
+if ($group_id == 0) {
+echo json_encode(array(
+    'status' => 'error',
+    'message'=> 'error message'
+));
+}
+else
+{
+echo json_encode(array(
+    'status' => 'success',
+    'message'=> 'success message'
+));
+}
+
+javascript:
+
+$(document).ready(function(){
+$('#postride').submit(function(event) {
+     event.preventDefault();
+     dataString = $("#postride").serialize();
+     $.ajax({
+        type: "post",
+        url: "postride.php",
+        dataType:"json",
+        data: dataString,
+        success: function (response) {
+            if(response.status === "success") {
+                // do something with response.message or whatever other data on success
+            } else if(response.status === "error") {
+                // do something with response.message or whatever other data on error
+            }
+        }
+    })
+    return false;
+});
+
+
