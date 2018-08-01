@@ -4,7 +4,7 @@
  * @version 1.0
  */
  /*
-Plugin Name: WebbMagix Product Key Validation v4
+Plugin Name: WebbMagix Product Key Validation v1
 Plugin URI: https://WebbMagix.com
 Description: Custom plugin to validate the key pair of the product.
 Author: Sathish Kumar
@@ -26,7 +26,7 @@ require_once(plugin_dir_path(__FILE__) .  'wmgx-product-key-validation.php');
 // Verify that scrpt is added to the page by looking at html pagesouce.
 add_action( 'admin_enqueue_scripts', 'ajax_enqueue_scripts' );
 function ajax_enqueue_scripts() {
-  // alternate: plugin_dir_url( __FILE__ ) . 'wmgx2-product-key-validation.js')
+	// alternate: plugin_dir_url( __FILE__ ) . 'wmgx-product-key-validation.js')
 	wp_enqueue_script( 'wmgx_key_management', plugins_url( '/wmgx-product-key-management.js', __FILE__ ), array(
     'jquery'));
 
@@ -35,17 +35,6 @@ function ajax_enqueue_scripts() {
 	));
 }
 
-// Need to split js to 2, one for admin another for front end UI
-// add_action( 'wp_enqueue_scripts', 'ajax_enqueue_scripts' );
-// function ajax_enqueue_scripts() {
-//   // alternate: plugin_dir_url( __FILE__ ) . 'wmgx2-product-key-validation.js')
-// 	wp_enqueue_script( 'wmgx_key_validation', plugins_url( '/wmgx-product-key-validation.js', __FILE__ ), array(
-//     'jquery'));
-//
-// 	wp_localize_script( 'wmgx_key_validation', 'wmgx_key_script_vars', array(
-// 		'ajax_url' => admin_url( 'admin-ajax.php' )
-// 	));
-// }
 
 /////////////////////////////////////
 /// Admin Page
