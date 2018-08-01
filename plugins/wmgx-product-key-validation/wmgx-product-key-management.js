@@ -2,6 +2,7 @@ jQuery(document).ready(function() {
 
 ///// Button clicked for generating the keys on the Admin page
 // jQuery('#key-date').val(new Date());
+// Updated for testing github
 
 jQuery('#generate-keys-btn').click(function() {
     //alert("clicked..");
